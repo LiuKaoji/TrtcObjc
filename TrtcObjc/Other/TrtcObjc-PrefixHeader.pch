@@ -1,0 +1,35 @@
+//
+//  TRTC-PrefixHeader.pch
+//  TrtcObjc
+//
+//  Created by kaoji on 2020/8/22.
+//  Copyright © 2020 kaoji. All rights reserved.
+//
+
+#ifndef TRTC_PrefixHeader_pch
+#define TRTC_PrefixHeader_pch
+
+#import <TXLiteAVSDK.h>
+
+#define ROOM_ID 22338890
+
+#define USER_ID @"AAABBB"
+
+#define isBangsDevice ({\
+BOOL isBangsScreen = NO; \
+if (@available(iOS 11.0, *)) { \
+UIWindow *window = [[UIApplication sharedApplication].windows firstObject]; \
+isBangsScreen = window.safeAreaInsets.bottom > 0; \
+} \
+isBangsScreen; \
+})
+
+#define STATUS_BAR_HEIGHT (isBangsDevice ? 44.0 : 20.0)
+#define NAVIGATION_BAR_HEIGHT 44.0
+#define TOP_LAYOUT_GUIDE (STATUS_BAR_HEIGHT + NAVIGATION_BAR_HEIGHT)
+#define BOTTOM_LAYOUT_GUIDE (isBangsDevice ? 34.0 : 0.0)
+#define SAFE_HEIGHT (SCREEN_HEIGHT-TOP_LAYOUT_GUIDE-BOTTOM_LAYOUT_GUIDE)
+
+#define rgba(r,g,b,a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
+
+#endif /* TRTC_PrefixHeader_pch */
