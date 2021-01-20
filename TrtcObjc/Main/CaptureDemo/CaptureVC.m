@@ -43,7 +43,8 @@
     
     [self prepareTRTC];
     [self setupVideoCapture];
-    [self setupAudioCapture];
+    [self setup
+     pture];
     
 }
 
@@ -51,7 +52,7 @@
 -(void)prepareTRTC{
    
     //进房
-    [self.trtc enterRoom:[self roomParam] appScene:TRTCAppSceneAudioCall];
+    [self.trtc enterRoom:[self roomParam] appScene:TRTCAppSceneLIVE];
     
     //显示预览
     _previewLayer = [[GPUImageView alloc] initWithFrame:self.view.bounds];
