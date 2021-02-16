@@ -7,10 +7,10 @@
 │   Capture    ├────▶   filter     │
 └───────┬──────┘    └──────┬───────┘
         │                  │        
-┌───────▼──────────────────▼───────┐
-│             TRTC                 │
-└───────▲──────────────────▲───────┘
-        │                  │        
+┌───────▼──────────────────▼───────┐    ┌───────────────────────────┐
+│             TRTC                 ├────▶  AudioRawData Dump & Play │
+└───────▲──────────────────▲───────┘    └──────-────────────────────┘
+        │                  │         
 ┌───────┴──────┐    ┌──────┴───────┐
 │Render/Process│    │     File     │
 └──────────────┘    └──────────────┘
@@ -30,11 +30,19 @@ $ TRTCCloud.h:
 $ setLocalVideoRenderDelegate 
 $ -(void)onRenderVideoFrame:(TRTCVideoFrame *)frame userId:(NSString *)userId streamType:(TRTCVideoStreamType)streamType{}
 ```
-* **[美颜新接口](http://doc.qcloudtrtc.com/group__TRTCCloud__ios.html#a2f73c33b1010a63bd3a06e639b3cf348)**: 实时音视频8.0+数据回调,支持数据回填实现美颜/滤镜,性能更好
+* **[美颜新接口](http://doc.qcloudtrtc.com/group__TRTCCloudDelegate__ios.html#protocolTRTCAudioFrameDelegate)**: 实时音视频8.0+数据回调,支持数据回填实现美颜/滤镜,性能更好
 ```bash
 $ TRTCCloud.h:
 $ setLocalVideoProcessDelegete 
 $ - (uint32_t)onProcessVideoFrame:(TRTCVideoFrame * _Nonnull)srcFrame dstFrame:(TRTCVideoFrame * _Nonnull)dstFrame{}
+```
+
+* **[音频回调](http://doc.qcloudtrtc.com/group__TRTCCloud__ios.html#a2f73c33b1010a63bd3a06e639b3cf348)**: 采集与混音裸数据回调,dump pcm数据并进行播放,适用于音频排障
+```bash
+$ TRTCCloud.h:
+$ setAudioFrameDelegate 
+$ - (void) onCapturedRawAudioFrame:(TRTCAudioFrame *)frame
+$ - (void) onLocalProcessedAudioFrame:(TRTCAudioFrame *)frame	
 ```
 
 ## 安装
