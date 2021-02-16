@@ -9,7 +9,6 @@
 
 #import "AudioDumpTool.h"
 #import "AudioDumpConfig.h"
-//#import "wav.c"
 
 static AudioDumpTool *_instance;
 
@@ -18,6 +17,9 @@ static AudioDumpTool *_instance;
     FILE *_mixAudioDumpFile;// SDK混音处理后的数据
     BOOL _isStart;
 }
+
+@property (nonatomic, strong)NSDateFormatter *formatter;
+
 @end
 
 @implementation AudioDumpTool
@@ -39,6 +41,15 @@ static AudioDumpTool *_instance;
     return self;
 }
 
+- (NSDateFormatter *)formatter{
+    if (!_formatter) {
+        _formatter = [[NSDateFormatter alloc] init];
+        [_formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:8]];
+        [_formatter setDateFormat:@"yyyy_MM_DD HH_MM_SS_sss"];
+    }
+    return _formatter;
+}
+
 - (void)start{
     
     if (_isStart) {
@@ -53,9 +64,12 @@ static AudioDumpTool *_instance;
     }
 
     NSLog(@"DDD_Path:%@",D_Capture);
-    _captureAudioDumpFile = fopen([D_Capture UTF8String], "wb");
+    NSString *dateStr = [self.formatter stringFromDate:[NSDate date]];
+    NSString *capturePath = [NSString stringWithFormat:@"%@/%@ %@.pcm",D_RootFolder,D_Capture,dateStr];
+    NSString *processPath = [NSString stringWithFormat:@"%@/%@ %@.pcm",D_RootFolder,D_Process,dateStr];
+    _captureAudioDumpFile = fopen([capturePath UTF8String], "wb");
 
-    _mixAudioDumpFile = fopen([D_Process UTF8String], "wb");
+    _mixAudioDumpFile = fopen([processPath UTF8String], "wb");
     
     _isStart = YES;
 }

@@ -9,7 +9,9 @@
 #import "AudioEmbedView.h"
 #import "AudioDumpConfig.h"
 #import "PCMUtils.h"
+#import "DumpFileModel.h"
 
+static NSString *DumpCellID = @"DumpCellID";
 
 @interface AudioEmbedView ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -33,7 +35,6 @@
     [super awakeFromNib];
     _listTableView.delegate = self;
     _listTableView.dataSource = self;
-    [_listTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"D_Cell_ID"];
     
     _playIndex = -1;
     [self readDumpFiles];
@@ -42,11 +43,16 @@
 -(void)readDumpFiles{
     
     _dumpFiles = [NSMutableArray array];
-    [[NSFileManager.defaultManager contentsOfDirectoryAtPath:D_RootFolder error:nil] enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    
+    NSArray *files = [NSFileManager.defaultManager contentsOfDirectoryAtPath:D_RootFolder error:nil];
+    [files enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj.pathExtension isEqualToString:@"pcm"]) {
-            [_dumpFiles addObject:obj];
+            DumpFileModel *model = [DumpFileModel modelWithPath:D_RootFolder Name:obj];
+            [_dumpFiles addObject:model];
         }
     }];
+    
+    [_dumpFiles sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]]];
     [self.listTableView reloadData];
 }
 
@@ -64,8 +70,7 @@
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:D_RootFolder error:NULL];
     
     [contents enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *file = [D_RootFolder stringByAppendingPathComponent:obj];
-        [[NSFileManager defaultManager] removeItemAtPath:file error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:[D_RootFolder stringByAppendingPathComponent:obj] error:nil];
     }];
     [self readDumpFiles];
 }
@@ -95,6 +100,7 @@
     
     double pos = self.seekSlider.value * _durationMs;
     [[[TRTCCloud sharedInstance] getAudioEffectManager] seekMusicToPosInMS:_playId pts:pos];
+    self.isDragingSlider = NO;
 }
 
 
@@ -105,11 +111,20 @@
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"D_Cell_ID"];
+
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:DumpCellID];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:DumpCellID];
+    }
     cell.backgroundColor = [UIColor clearColor];
+    cell.textLabel.font = [UIFont systemFontOfSize:13];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:11];
     cell.textLabel.textColor = [UIColor colorWithWhite:1.0 alpha:0.8];
-    cell.textLabel.text = _dumpFiles[indexPath.row];
+    cell.detailTextLabel.textColor = [UIColor lightTextColor];
+    
+    DumpFileModel *model = _dumpFiles[indexPath.row];
+    cell.textLabel.text = model.name;
+    cell.detailTextLabel.text = model.size;
     
     return cell;
 }
@@ -122,7 +137,8 @@
     [[[TRTCCloud sharedInstance] getAudioEffectManager] stopPlayMusic:_playId];
     
     ///转换pcm2wav
-    NSString *pcmPath = [D_RootFolder stringByAppendingPathComponent:_dumpFiles[indexPath.row]];
+    DumpFileModel *model = _dumpFiles[indexPath.row];
+    NSString *pcmPath = model.path;
     NSString *wavPath = [pcmPath stringByAppendingString:@".wav"];
     [PCMUtils pcm2Wav:pcmPath wavPath:wavPath];
     
@@ -154,6 +170,11 @@
         strongSelf.currentLabel.text = @"00:00";
         strongSelf.seekSlider.value = 0;
     }];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return 60;
 }
 
 +(void)show:(dispatch_block_t)hideHandle{

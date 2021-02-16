@@ -301,7 +301,7 @@
 /// 使用默然参数进房
 - (void)enterRoomUsingDefautParam{
     
-    //[_trtc enterRoom:self.param appScene:TRTCAppSceneLIVE];
+    [_trtc enterRoom:self.param appScene:TRTCAppSceneLIVE];
 }
 
 /// 进入TRTC房间

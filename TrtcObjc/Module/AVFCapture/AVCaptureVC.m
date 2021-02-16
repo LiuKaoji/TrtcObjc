@@ -46,7 +46,7 @@
     [self.rtcManager setEncParam:self.rtcManager.encParam];
     
     /// 进房
-    //[self.rtcManager enterRoomUsingDefautParam];
+    [self.rtcManager enterRoomUsingDefautParam];
     
 }
 

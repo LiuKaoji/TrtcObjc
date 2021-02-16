@@ -10,15 +10,15 @@
 #define AudioDumpConfig_h
 
 #define D_SampleRate    48000
-#define D_BitsPerSample 8
+#define D_BitsPerSample 16
 #define D_Channels   1
 
 ///沙盒文稿目录
 #define KJDocuments    [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]
 /// Dump 文件主目录
 #define D_RootFolder   [KJDocuments stringByAppendingPathComponent:@"AudioDump"]
-#define D_Capture      [NSString stringWithFormat:@"%@/[%@]-%@.pcm", D_RootFolder,@"Capture",[NSDate date]]
-#define D_Process      [NSString stringWithFormat:@"%@/[%@]-%@.pcm", D_RootFolder,@"Process",[NSDate date]]
+#define D_Capture      @"CaptureRawData"
+#define D_Process      @"ProcessRawData"
 #endif /* AudioDumpConfig_h */
 
 static NSString * formatTimeInterval(CGFloat seconds)

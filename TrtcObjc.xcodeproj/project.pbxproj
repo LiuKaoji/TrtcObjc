@@ -30,6 +30,7 @@
 		36CC9F8E25DACD1400F7718E /* AudioEffectSettingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36CC9F8525DACCC400F7718E /* AudioEffectSettingKit.framework */; };
 		36CC9F8F25DACDC500F7718E /* AudioEffectSettingKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 36CC9F8525DACCC400F7718E /* AudioEffectSettingKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		36CC9F9225DACDE700F7718E /* AudioEffectSettingKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 36CC9F8725DACCC400F7718E /* AudioEffectSettingKitResources.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		36CC9FE325DC2A5800F7718E /* DumpFileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CC9FE225DC2A5800F7718E /* DumpFileModel.m */; };
 		3CDA13F9CC1FD01AE1B31B96 /* Pods_TrtcObjc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A32D4B6862EE342E3377291F /* Pods_TrtcObjc.framework */; };
 		6505C44924F4E52A0041EBA0 /* CoreImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6505C44824F4E52A0041EBA0 /* CoreImageFilter.m */; };
 		650D5A0824F3C75D0052B1E7 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 650D5A0724F3C75D0052B1E7 /* libc++.tbd */; };
@@ -153,6 +154,8 @@
 		36C643F725A4797D0049FAD6 /* TXCAudioCustomRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXCAudioCustomRecorder.h; sourceTree = "<group>"; };
 		36CC9F5525DABBA100F7718E /* wav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wav.png; sourceTree = "<group>"; };
 		36CC9F7F25DACCC400F7718E /* AudioEffectSettingKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AudioEffectSettingKit.xcodeproj; path = AudioSettingKit/AudioEffectSettingKit.xcodeproj; sourceTree = "<group>"; };
+		36CC9FE125DC2A5800F7718E /* DumpFileModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DumpFileModel.h; sourceTree = "<group>"; };
+		36CC9FE225DC2A5800F7718E /* DumpFileModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DumpFileModel.m; sourceTree = "<group>"; };
 		6505C44724F4E52A0041EBA0 /* CoreImageFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreImageFilter.h; sourceTree = "<group>"; };
 		6505C44824F4E52A0041EBA0 /* CoreImageFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreImageFilter.m; sourceTree = "<group>"; };
 		650D5A0724F3C75D0052B1E7 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -293,18 +296,13 @@
 		36AB725325D98ABA00A17DCE /* AudioDump */ = {
 			isa = PBXGroup;
 			children = (
+				36CC9FE025DC297000F7718E /* Pcm2Wav */,
+				36CC9FDF25DC296200F7718E /* DumpTool */,
+				36CC9FDD25DC28CB00F7718E /* DumpList */,
 				36CC9F7F25DACCC400F7718E /* AudioEffectSettingKit.xcodeproj */,
 				36AB726725D98B4400A17DCE /* AudioDumpConfig.h */,
-				36AB726325D98B4400A17DCE /* AudioDumpTool.h */,
-				36AB726A25D98B4400A17DCE /* AudioDumpTool.m */,
 				36AB726825D98B4400A17DCE /* AudioDumpVC.h */,
 				36AB726525D98B4400A17DCE /* AudioDumpVC.m */,
-				36AB726B25D98B4400A17DCE /* AudioEmbedView.h */,
-				36AB726925D98B4400A17DCE /* AudioEmbedView.m */,
-				36AB726425D98B4400A17DCE /* AudioEmbedView.xib */,
-				36AB728225DA654600A17DCE /* PCMUtils.h */,
-				36AB728325DA654600A17DCE /* PCMUtils.m */,
-				36CC9F5525DABBA100F7718E /* wav.png */,
 			);
 			path = AudioDump;
 			sourceTree = "<group>";
@@ -380,6 +378,37 @@
 				36CC9F8725DACCC400F7718E /* AudioEffectSettingKitResources.bundle */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		36CC9FDD25DC28CB00F7718E /* DumpList */ = {
+			isa = PBXGroup;
+			children = (
+				36AB726B25D98B4400A17DCE /* AudioEmbedView.h */,
+				36AB726925D98B4400A17DCE /* AudioEmbedView.m */,
+				36AB726425D98B4400A17DCE /* AudioEmbedView.xib */,
+			);
+			path = DumpList;
+			sourceTree = "<group>";
+		};
+		36CC9FDF25DC296200F7718E /* DumpTool */ = {
+			isa = PBXGroup;
+			children = (
+				36AB726325D98B4400A17DCE /* AudioDumpTool.h */,
+				36AB726A25D98B4400A17DCE /* AudioDumpTool.m */,
+				36CC9FE125DC2A5800F7718E /* DumpFileModel.h */,
+				36CC9FE225DC2A5800F7718E /* DumpFileModel.m */,
+			);
+			path = DumpTool;
+			sourceTree = "<group>";
+		};
+		36CC9FE025DC297000F7718E /* Pcm2Wav */ = {
+			isa = PBXGroup;
+			children = (
+				36AB728225DA654600A17DCE /* PCMUtils.h */,
+				36AB728325DA654600A17DCE /* PCMUtils.m */,
+				36CC9F5525DABBA100F7718E /* wav.png */,
+			);
+			path = Pcm2Wav;
 			sourceTree = "<group>";
 		};
 		3F88A4D92C02822ED9A936BA /* Frameworks */ = {
@@ -749,6 +778,7 @@
 				36C643E525A4647D0049FAD6 /* CustomProcessFilter.m in Sources */,
 				65263EA8254440D60084D740 /* QBAssetsViewController.m in Sources */,
 				36AB728425DA654600A17DCE /* PCMUtils.m in Sources */,
+				36CC9FE325DC2A5800F7718E /* DumpFileModel.m in Sources */,
 				E4A228FE24F0CAC200F3BB35 /* RenderVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -911,6 +941,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = F9E6VPNRYT;
 				ENABLE_BITCODE = NO;
@@ -935,6 +966,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.DeviceManageIOSApp.dailybuild;
 				PRODUCT_NAME = TrtcObjc;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -953,6 +985,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.2;
 				DEVELOPMENT_TEAM = F9E6VPNRYT;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -976,6 +1009,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.DeviceManageIOSApp.dailybuild;
 				PRODUCT_NAME = TrtcObjc;
 				PROVISIONING_PROFILE_SPECIFIER = "";

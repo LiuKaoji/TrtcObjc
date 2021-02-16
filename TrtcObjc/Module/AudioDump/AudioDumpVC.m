@@ -46,7 +46,7 @@
         make.bottom.equalTo(self.mas_bottomLayoutGuideTop);
         make.height.equalTo(@40);
     }];
-
+    
 }
 
 -(void)startRenderDemo{
@@ -68,6 +68,13 @@
     //////////////////////////////////____音频采样______///////////////////////////
     [self.rtcManager setExperimentConfig:@"setAudioSampleRate" params:@{@"sampleRate":@(D_SampleRate)}];///采样率
     
+    //////////////////////////////////____设置回调格式______///////////////////////////
+    TRTCAudioFrameDelegateFormat *format = [[TRTCAudioFrameDelegateFormat alloc] init];
+    format.channels = D_Channels;
+    format.sampleRate = D_SampleRate;
+    format.samplesPerCall = 20 * D_SampleRate / 1000;//20ms帧长
+    [self.rtcManager.trtc setCapturedRawAudioFrameDelegateFormat:format];
+    [self.rtcManager.trtc setLocalProcessedAudioFrameDelegateFormat:format];
     
     //////////////////////////////////____3A   设置_______////////////////////////
     ///AEC: 音频AEC开关
@@ -101,7 +108,7 @@
     __weak __typeof__(self) weakSelf = self;
     [AudioEmbedView show:^{
         __strong __typeof(self) strongSelf = weakSelf;
-        [strongSelf startRenderDemo];///恢复TRTC
+        [strongSelf.rtcManager startCapture:SDKCapture Preview:self.view];;///恢复TRTC采集
     }];;
 }
 
@@ -122,13 +129,13 @@
 #pragma mark - 父类重写
 -(void)onClickBack{
     
+    [self.bgmPanel stopPlay];
     [self.rtcManager exitRoom];
     [self.rtcManager stopCapture];
     [RTCLocalManager destroySharedIntance];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - 父类重写
 -(void)dealloc{
     
     [RTCLocalManager destroySharedIntance];
