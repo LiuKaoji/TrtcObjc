@@ -9,10 +9,6 @@
 #import "GLRenderView.h"
 #import "AppDelegate.h"
 
-@interface GLRenderView()
-
-@end
-
 @implementation GLRenderView
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -29,21 +25,21 @@
     
     //配置 GLKView 用于显示画面
     _eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-    _videoPreviewView = [[GLKView alloc] initWithFrame:self.bounds context:_eaglContext];
-    _videoPreviewView.frame = self.bounds;
-    [self addSubview:_videoPreviewView];
-    [self sendSubviewToBack:_videoPreviewView];
+    _displayView = [[GLKView alloc] initWithFrame:self.bounds context:_eaglContext];
+    _displayView.frame = self.bounds;
+    [self addSubview:_displayView];
+    [self sendSubviewToBack:_displayView];
     
     // 绑定 frame buffer 获取 buffer 的宽和高
     // CIContext在绘制GLKView时使用的边界以像素为单位（不是点）
     // 因此需要读取帧缓冲区的宽度和高度；
-    [_videoPreviewView bindDrawable];
-    _videoPreviewView.enableSetNeedsDisplay = YES;
-    _videoPreviewViewBounds = CGRectZero;
-    _videoPreviewViewBounds.size.width = _videoPreviewView.drawableWidth;
-    _videoPreviewViewBounds.size.height = _videoPreviewView.drawableHeight;
+    [_displayView bindDrawable];
+    _displayView.enableSetNeedsDisplay = YES;
+    _displayBounds = CGRectZero;
+    _displayBounds.size.width = _displayView.drawableWidth;
+    _displayBounds.size.height = _displayView.drawableHeight;
     
-    // 创建CIContext实例，这必须在videoPreviewView之后完成
+    // 创建CIContext实例，这必须在displayView之后完成
     _ciContext = [CIContext contextWithEAGLContext:_eaglContext options:@{kCIContextWorkingColorSpace : [NSNull null]} ];
     
 }
@@ -51,13 +47,13 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
 
-    [_videoPreviewView deleteDrawable];
-    _videoPreviewView.frame = self.frame;
-    [_videoPreviewView bindDrawable];
-    _videoPreviewViewBounds = CGRectZero;
-    _videoPreviewViewBounds.size.width = _videoPreviewView.drawableWidth;
-    _videoPreviewViewBounds.size.height = _videoPreviewView.drawableHeight;
-    [_videoPreviewView layoutIfNeeded];
+    [_displayView deleteDrawable];
+    _displayView.frame = self.frame;
+    [_displayView bindDrawable];
+    _displayBounds = CGRectZero;
+    _displayBounds.size.width = _displayView.drawableWidth;
+    _displayBounds.size.height = _displayView.drawableHeight;
+    [_displayView layoutIfNeeded];
 }
 
 -(void)renderFrame:(TRTCVideoFrame *)frame{
@@ -68,7 +64,7 @@
     
     
     CGFloat sourceAspect = sourceExtent.size.width / sourceExtent.size.height;
-    CGFloat previewAspect = _videoPreviewViewBounds.size.width  / _videoPreviewViewBounds.size.height;
+    CGFloat previewAspect = _displayBounds.size.width  / _displayBounds.size.height;
     
     //我们想保持屏幕大小的纵横比，所以我们剪辑视频图像
     CGRect drawRect = sourceExtent;
@@ -85,7 +81,7 @@
         drawRect.size.height = drawRect.size.width / previewAspect;
     }
     
-    [_videoPreviewView bindDrawable];
+    [_displayView bindDrawable];
     
     if (_eaglContext != [EAGLContext currentContext])
         [EAGLContext setCurrentContext:_eaglContext];
@@ -98,9 +94,9 @@
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     
-    [_ciContext drawImage:sourceImage inRect:_videoPreviewViewBounds fromRect:drawRect];
+    [_ciContext drawImage:sourceImage inRect:_displayBounds fromRect:drawRect];
         
-    [_videoPreviewView display];
+    [_displayView display];
 }
 
 @end

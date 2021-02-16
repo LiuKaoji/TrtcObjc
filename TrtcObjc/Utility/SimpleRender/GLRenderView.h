@@ -14,14 +14,16 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GLRenderView : UILabel
-@property GLKView *videoPreviewView;
-@property CIContext *ciContext;
-@property EAGLContext *eaglContext;
-@property CGRect videoPreviewViewBounds;
+@property(nonatomic,strong) GLKView      *displayView;///画面显示
+@property(nonatomic,strong) CIContext    *ciContext;/// 处理图片
+@property(nonatomic,strong) EAGLContext  *eaglContext;///openGL ES上下文
+@property(nonatomic,assign) CGRect       displayBounds;/// 显示画面的范围
 
-//渲染
+/*
+* @param frame 参考TRTCCloudDef.h 描述一帧视频数据的模型
+* @note 渲染显示一帧TRTC视频数据
+*/
 -(void)renderFrame:(TRTCVideoFrame *)frame;
-
 
 @end
 

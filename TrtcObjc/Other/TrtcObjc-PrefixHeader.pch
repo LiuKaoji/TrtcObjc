@@ -10,10 +10,11 @@
 #define TRTC_PrefixHeader_pch
 
 #import <TXLiteAVSDK.h>
+#import <ReactiveObjC.h>
 
-#define ROOM_ID 22338890
+#define ROOM_ID 2389
 
-#define USER_ID @"AAABBB"
+#define USER_ID @"kaoji"
 
 #define isBangsDevice ({\
 BOOL isBangsScreen = NO; \
@@ -31,5 +32,7 @@ isBangsScreen; \
 #define SAFE_HEIGHT (SCREEN_HEIGHT-TOP_LAYOUT_GUIDE-BOTTOM_LAYOUT_GUIDE)
 
 #define rgba(r,g,b,a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
+
+#define oc_guard(__wish__) if (__wish__);
 
 #endif /* TRTC_PrefixHeader_pch */
