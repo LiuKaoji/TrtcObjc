@@ -56,7 +56,7 @@
         _param.sdkAppId = _SDKAppID;
         _param.userId = USER_ID;
         _param.roomId = ROOM_ID;
-        _param.userSig = [GenerateTestUserSig genTestUserSig:_param.userId];
+        _param.userSig = [GenerateTestUserSig genTestUserSig:_param.userId sdkAppId:_SDKAppID secretKey:_SECRETKEY];
         _param.privateMapKey = @"";
         _param.role = TRTCRoleAnchor;
     }
@@ -66,11 +66,11 @@
 /// 视频编码参数
 -(TRTCVideoEncParam *)encParam{
     
-    if(_encParam){
+    if(!_encParam){
         _encParam = [[TRTCVideoEncParam alloc] init];
-        _encParam.videoResolution = TRTCVideoResolution_640_360;
+        _encParam.videoResolution = TRTCVideoResolution_1280_720;
         _encParam.videoFps = 18;
-        _encParam.videoBitrate = 800;
+        _encParam.videoBitrate = 1500;
         _encParam.resMode = TRTCVideoResolutionModePortrait;
     }
     return  _encParam;
@@ -359,8 +359,8 @@
 
 - (void)setVideoEncoderParam:(TRTCVideoEncParam *)param{
     
+    [_trtc setVideoEncoderParam:param];
     _encParam = param;
-    [_trtc setVideoEncoderParam:_encParam];
 }
 
 /// 本地画面渲染模式

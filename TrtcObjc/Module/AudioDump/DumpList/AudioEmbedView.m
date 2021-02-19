@@ -10,6 +10,7 @@
 #import "AudioDumpConfig.h"
 #import "PCMUtils.h"
 #import "DumpFileModel.h"
+#import "AppDelegate.h"
 
 static NSString *DumpCellID = @"DumpCellID";
 
@@ -26,6 +27,7 @@ static NSString *DumpCellID = @"DumpCellID";
 @property (nonatomic, assign) int32_t playId;
 @property (nonatomic, assign) BOOL isDragingSlider;
 @property (nonatomic, assign) double durationMs;
+@property (nonatomic, strong) UIDocumentInteractionController *docVC;
 
 @end
 
@@ -170,6 +172,25 @@ static NSString *DumpCellID = @"DumpCellID";
         strongSelf.currentLabel.text = @"00:00";
         strongSelf.seekSlider.value = 0;
     }];
+}
+
+- (nullable NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    __weak __typeof__(self) weakSelf = self;
+    UITableViewRowAction *shareAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"共享" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+
+        DumpFileModel *model = weakSelf.dumpFiles[indexPath.row];
+    
+        //弹出分享
+        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        UIViewController *currentVC = appDelegate.nav.visibleViewController;
+        NSURL *fileURL = [NSURL fileURLWithPath:model.path];
+        weakSelf.docVC = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
+        [weakSelf.docVC presentOptionsMenuFromRect:CGRectZero inView:currentVC.view animated:YES];
+        
+    }];
+    shareAction.backgroundColor = [UIColor redColor];
+    return @[shareAction];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

@@ -57,6 +57,12 @@
         make.bottom.equalTo(self.mas_bottom).offset(-(isBangsDevice ?34:0) - 48);
     }];
     
+    [self.tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.mas_centerX);
+        make.width.equalTo(self).multipliedBy(0.5);
+        make.top.equalTo(self.toastStack.mas_top).offset(-4);
+    }];
+    
     [_logBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-15);
         make.size.equalTo(@30);
@@ -96,6 +102,20 @@
     [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
     [self addSubview:button];
     return button;
+}
+
+- (UILabel *)tipsLabel{
+    
+    if (!_tipsLabel) {
+        _tipsLabel = [[UILabel alloc] init];
+        _tipsLabel.textColor = [UIColor colorWithWhite:1 alpha:0.4];
+        _tipsLabel.textAlignment = NSTextAlignmentCenter;
+        _tipsLabel.text = @"轻触画面发现更多";
+        _tipsLabel.font = [UIFont systemFontOfSize:10];
+        _tipsLabel.hidden = YES;
+        [self addSubview: _tipsLabel];
+    }
+    return _tipsLabel;
 }
 
 @end

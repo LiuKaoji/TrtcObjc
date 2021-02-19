@@ -72,6 +72,11 @@
     self.baseView.logBtn.hidden = isHidden;
 }
 
+-(void)setTipsHidden:(BOOL)isHidden{
+    
+    self.baseView.tipsLabel.hidden = isHidden;
+}
+
 - (void)onClickBack{
     
 }

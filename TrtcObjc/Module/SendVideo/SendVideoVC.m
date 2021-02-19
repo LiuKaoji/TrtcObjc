@@ -28,6 +28,12 @@
 
 -(void)setupMVSender{
     
+//    TRTCPublishCDNParam *param = [[TRTCPublishCDNParam alloc] init];
+//    param.url = @"rtmp://2157.livepush.myqcloud.com/live/gblTest?txSecret=d613c5cbce0ec54eec42002f3d0a6e26&txTime=6030AC34";
+//    param.appId = TX_APPID;
+//    param.bizId = TX_BIZID;
+//    [self.rtcManager.trtc startPublishCDNStream:param];
+    
     /// 自定义渲染画面
     _glRenderView = [[GLRenderView alloc] initWithFrame:self.view.frame];
     _glRenderView.contentMode = UIViewContentModeScaleAspectFit;
@@ -53,6 +59,7 @@
     
     /// 进入房间
     [self.rtcManager enterRoomUsingDefautParam];
+
 }
 
 #pragma mark - 相册选择

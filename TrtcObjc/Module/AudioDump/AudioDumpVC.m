@@ -68,13 +68,13 @@
     //////////////////////////////////____音频采样______///////////////////////////
     [self.rtcManager setExperimentConfig:@"setAudioSampleRate" params:@{@"sampleRate":@(D_SampleRate)}];///采样率
     
-    //////////////////////////////////____设置回调格式______///////////////////////////
-    TRTCAudioFrameDelegateFormat *format = [[TRTCAudioFrameDelegateFormat alloc] init];
-    format.channels = D_Channels;
-    format.sampleRate = D_SampleRate;
-    format.samplesPerCall = 20 * D_SampleRate / 1000;//20ms帧长
-    [self.rtcManager.trtc setCapturedRawAudioFrameDelegateFormat:format];
-    [self.rtcManager.trtc setLocalProcessedAudioFrameDelegateFormat:format];
+    //////////////////////////////////____设置回调格式(8.3)______///////////////////////////
+//    TRTCAudioFrameDelegateFormat *format = [[TRTCAudioFrameDelegateFormat alloc] init];
+//    format.channels = D_Channels;
+//    format.sampleRate = D_SampleRate;
+//    format.samplesPerCall = 20 * D_SampleRate / 1000;//20ms帧长
+//    [self.rtcManager.trtc setCapturedRawAudioFrameDelegateFormat:format];
+//    [self.rtcManager.trtc setLocalProcessedAudioFrameDelegateFormat:format];
     
     //////////////////////////////////____3A   设置_______////////////////////////
     ///AEC: 音频AEC开关

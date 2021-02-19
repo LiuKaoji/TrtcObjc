@@ -21,7 +21,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    
+    [super setTipsHidden:NO];/// 轻触画面弹出美颜控制
     [self startGPUCapture];
 }
 

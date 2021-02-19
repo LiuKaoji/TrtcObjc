@@ -20,10 +20,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     MainTableVC *mainVC = [[MainTableVC alloc] init];
+    _nav = [[UINavigationController alloc] initWithRootViewController:mainVC];
     
     CGRect screenBounds = [UIScreen mainScreen].bounds;
     _window = [[UIWindow alloc] initWithFrame:screenBounds];
-    _window.rootViewController = [[UINavigationController alloc] initWithRootViewController:mainVC];
+    _window.rootViewController = _nav;
     [_window makeKeyAndVisible];
     
     return YES;

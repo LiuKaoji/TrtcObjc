@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UIButton    *logBtn; // 仪表盘
 
+@property (nonatomic, strong) UILabel    *tipsLabel; // 操作提示
+
 @property (nonatomic, strong) UIStackView *toastStack; // toast容器
 
 @end

@@ -40,10 +40,11 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-    [self startTRTC];
+    [super setTipsHidden:NO];/// 当NV12/BGRA时轻触可以切换LUT滤镜图
+    [self startProcessDemo];
 }
 
--(void)startTRTC{
+-(void)startProcessDemo{
 
     /// 显示画面
     _localView = [[UIView alloc] initWithFrame:self.view.frame];

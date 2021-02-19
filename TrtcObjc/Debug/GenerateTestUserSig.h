@@ -20,12 +20,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/** TRTC的bizid的appid用于转推直播流，https://console.cloud.tencent.com/rav 点击【应用】【帐号信息】
+ * 在【直播信息】中可以看到bizid和appid，分别填到下面这两个符号
+ */
+#define TX_BIZID 0
+
+#define TX_APPID 0
+
 /**
  * 腾讯云 SDKAppId，需要替换为您自己账号下的 SDKAppId。
  *
  * 进入腾讯云实时音视频[控制台](https://console.cloud.tencent.com/rav ) 创建应用，即可看到 SDKAppId，
  * 它是腾讯云用于区分客户的唯一标识。
  */
+/// <#请填写#>
 static const int _SDKAppID = <#请填写#>;
 
 /**
@@ -46,8 +54,16 @@ static const int _EXPIRETIME = 604800;
  * 注意：该方案仅适用于调试Demo，正式上线前请将 UserSig 计算代码和密钥迁移到您的后台服务器上，以避免加密密钥泄露导致的流量盗用。
  * 文档：https://cloud.tencent.com/document/product/647/17275#Server
  */
-static NSString * const _SECRETKEY = <#@""#>;
+static NSString * const _SECRETKEY = <#请填写#>;
 
+
+#ifndef _AudioRoomSDKAppID
+#define _AudioRoomSDKAppID _SDKAppID
+#endif
+
+#ifndef _AudioRoomSecretKey
+#define _AudioRoomSecretKey _SECRETKEY
+#endif
 
 @interface GenerateTestUserSig : NSObject
 /**
@@ -66,7 +82,7 @@ static NSString * const _SECRETKEY = <#@""#>;
  *
  * 文档：https://cloud.tencent.com/document/product/647/17275#Server
  */
-+ (NSString *)genTestUserSig:(NSString *)identifier;
++ (NSString *)genTestUserSig:(NSString *)identifier sdkAppId:(int)sdkAppId secretKey:(NSString *)key;
 @end
 
 NS_ASSUME_NONNULL_END

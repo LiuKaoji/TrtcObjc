@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,strong)RTCLocalManager *rtcManager;///TRTC管理类
 @property(nonatomic,assign)int showLogType;///仪表盘
+-(void)setTipsHidden:(BOOL)isHidden;
 -(void)setLogBtnHidden:(BOOL)isHidden;
 -(void)setDemoTitle:(NSString *)title;
 @end

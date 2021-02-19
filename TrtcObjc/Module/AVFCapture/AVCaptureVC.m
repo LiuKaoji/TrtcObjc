@@ -28,6 +28,7 @@
 
     self.navigationController.navigationBar.hidden = YES;
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    [super setTipsHidden:NO];/// 轻触画面弹出设备控制
     [self startAVFCapture];
    
 }
